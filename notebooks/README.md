@@ -13,4 +13,4 @@ Requirements: `astropy`, `s3fs`, `matplotlib`, `numpy` — all present in the hu
 
 | notebook | content |
 |---|---|
-| [01 — Opening a FITS image from S3](01_opening_fits_from_s3.ipynb) | reading a 2.2 GB DSA-2000 image without downloading it: the S3 API versus the NFS mount, header-only inspection, degenerate axes and 4-axis WCS, lazy cutouts with `hdu.section`, display with sky coordinates |
+| [01 — Opening a FITS image from S3](01_opening_fits_from_s3.ipynb) | Reading a 2.2 GB DSA image without downloading it: the S3 API versus the NFS mount, header-only inspection, degenerate axes and 4-axis WCS, lazy cutouts with `hdu.section`, display with sky coordinates |
