@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "convening2026-release"
+version = "2026.9.28"
+description = "DSA-2000 sample data and notebooks for the 2026 Schmidt Observatory System Science Convening"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "BSD-3-Clause" }
+authors = [
+  { name = "DSA-2000 Data & Algorithms Team" },
+]
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "astropy>=6.0",
+  "matplotlib>=3.7",
+  "pandas>=2.0",
+  "h5py>=3.0",
+  "jupyter>=1.0",
+  "ipywidgets>=8.0",
+  "pint-pulsar>=1.1",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# Maintainer-only: schema checks before S3 upload (not needed to run notebooks).
+validate = [
+  "data-validator",
+]
+dev = [
+  "pytest>=7.0",
+  "ruff>=0.4",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/convening2026"]
+
+[tool.uv.sources]
+# Used only with the optional [validate] extra.
+data-validator = { path = "../dsa-2000-monorepo/packages/dat/data-validator", editable = true }

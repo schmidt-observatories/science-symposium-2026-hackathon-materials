@@ -1,0 +1,33 @@
+# Sample data products under data/** are local / S3 only — not committed.
+data/**
+!data/README.md
+!data/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Tooling / OS
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Credentials (none required for public notebook deps; keep out of git)
+*.pem
+credentials*
+.aws/

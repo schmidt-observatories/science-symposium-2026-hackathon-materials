@@ -1,4 +1,4 @@
 # science-symposium-2026-hackathon-materials
 
-# Contact
-Gummi & Mickael
+# Notes
+See materials for the different observatories in the different sub-directories.

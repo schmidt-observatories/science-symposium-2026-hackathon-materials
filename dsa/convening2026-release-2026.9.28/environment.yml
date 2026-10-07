@@ -1,0 +1,22 @@
+# DSA-2000 convening notebooks (main branch)
+name: convening2026
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.10,<3.13
+  - numpy>=1.24
+  - scipy>=1.10
+  - astropy>=6.0
+  - matplotlib>=3.7
+  - pandas>=2.0
+  - jupyter
+  - ipywidgets
+  # CHR pulsar-timing notebooks (DPR-DSA-13): PSRCHIVE + PINT
+  - psrchive
+  - pint-pulsar
+  - pyyaml
+  # FRB notebooks (DPR-DSA-11/12)
+  - h5py
+  - pip
+  - pip:
+      - -e .

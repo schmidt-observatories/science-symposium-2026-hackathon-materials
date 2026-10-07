@@ -1,0 +1,15 @@
+# Dependencies for running the convening notebooks (main branch).
+# Install the repo helpers with: pip install -e .
+#
+# PSRCHIVE is not on PyPI — use environment.yml (conda-forge) for notebooks 02/03.
+
+numpy>=1.24
+scipy>=1.10
+astropy>=6.0
+matplotlib>=3.7
+pandas>=2.0
+h5py>=3.0
+jupyter>=1.0
+ipywidgets>=8.0
+pint-pulsar>=1.1
+pyyaml>=6.0
