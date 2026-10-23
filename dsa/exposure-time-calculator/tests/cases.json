@@ -1,0 +1,297 @@
+[
+ {
+  "name": "survey_equator_full",
+  "inp": {
+   "mode": "survey",
+   "ra": 0.0,
+   "dec": 0.0
+  }
+ },
+ {
+  "name": "survey_gc_full",
+  "inp": {
+   "mode": "survey",
+   "ra": 266.4,
+   "dec": -28.9
+  }
+ },
+ {
+  "name": "survey_euclid_single_smooth20",
+  "inp": {
+   "mode": "survey",
+   "ra": 200.0,
+   "dec": 50.0,
+   "depth": "single",
+   "smooth_arcsec": 20.0
+  }
+ },
+ {
+  "name": "survey_pole_custom3",
+  "inp": {
+   "mode": "survey",
+   "ra": 100.0,
+   "dec": 80.0,
+   "depth": "custom",
+   "n_epochs": 3
+  }
+ },
+ {
+  "name": "targeted_cosmos_10h_smooth30",
+  "inp": {
+   "mode": "targeted",
+   "ra": 150.0,
+   "dec": 2.2,
+   "hours": 10.0,
+   "smooth_arcsec": 30.0
+  }
+ },
+ {
+  "name": "targeted_south_1h_natural",
+  "inp": {
+   "mode": "targeted",
+   "ra": 300.0,
+   "dec": -25.0,
+   "hours": 1.0,
+   "weighting": "natural:optimal"
+  }
+ },
+ {
+  "name": "targeted_north_4h_r04equal",
+  "inp": {
+   "mode": "targeted",
+   "ra": 60.0,
+   "dec": 85.0,
+   "hours": 4.0,
+   "weighting": "robust_0p4:equal"
+  }
+ },
+ {
+  "name": "survey_south_edge",
+  "inp": {
+   "mode": "survey",
+   "ra": 10.0,
+   "dec": -30.2
+  }
+ },
+ {
+  "name": "survey_norfi",
+  "inp": {
+   "mode": "survey",
+   "ra": 45.0,
+   "dec": 25.0
+  },
+  "rfi": "none"
+ },
+ {
+  "name": "survey_nogal_loss10",
+  "inp": {
+   "mode": "survey",
+   "ra": 270.0,
+   "dec": -20.0
+  },
+  "params": {
+   "galactic_noise": false,
+   "extra_loss_percent": 10.0
+  }
+ },
+ {
+  "name": "targeted_unobservable",
+  "inp": {
+   "mode": "targeted",
+   "ra": 10.0,
+   "dec": -60.0,
+   "hours": 2.0
+  }
+ },
+ {
+  "name": "survey_variantA",
+  "inp": {
+   "mode": "survey",
+   "ra": 120.0,
+   "dec": 35.0,
+   "variant": "A"
+  }
+ },
+ {
+  "name": "targeted_params",
+  "inp": {
+   "mode": "targeted",
+   "ra": 83.6,
+   "dec": 22.0,
+   "hours": 0.35
+  },
+  "params": {
+   "tsys_zenith_K": 25.0,
+   "aperture_efficiency": 0.7,
+   "n_ant": 1600,
+   "confusion_beta": 25,
+   "frb_snr": 8,
+   "psr_snr": 8,
+   "pta_s1400_mJy": 2.5,
+   "pta_w50_ms": 0.1
+  }
+ },
+ {
+  "name": "survey_measured_rfi",
+  "rfi": "measured",
+  "inp": {
+   "mode": "survey",
+   "ra": 150.12,
+   "dec": 2.21
+  }
+ },
+ {
+  "name": "survey_variantB",
+  "inp": {
+   "mode": "survey",
+   "ra": 35.0,
+   "dec": -5.0,
+   "variant": "B"
+  }
+ },
+ {
+  "name": "targeted_smooth_20arcmin",
+  "inp": {
+   "mode": "targeted",
+   "ra": 170.0,
+   "dec": 39.57,
+   "hours": 4.0,
+   "smooth_arcsec": 1200.0
+  }
+ },
+ {
+  "name": "survey_smooth60_no_subtraction",
+  "params": {
+   "smooth_subtract_sources": false
+  },
+  "inp": {
+   "mode": "survey",
+   "ra": 150.12,
+   "dec": 2.21,
+   "smooth_arcsec": 60.0
+  }
+ },
+ {
+  "name": "td_galactic_plane_l40",
+  "inp": {
+   "mode": "targeted",
+   "ra": 286.09541381431313,
+   "dec": 6.287174119992986,
+   "hours": 1.0,
+   "products": [
+    "pulsar",
+    "frb"
+   ]
+  }
+ },
+ {
+  "name": "td_msp_cordes22_highlat",
+  "inp": {
+   "mode": "survey",
+   "ra": 180.0,
+   "dec": 60.0,
+   "products": [
+    "pulsar",
+    "frb"
+   ]
+  },
+  "params": {
+   "psr_period_ms": 3.0,
+   "psr_width_ms": 0.3,
+   "psr_dm": 150.0,
+   "td_scattering": "cordes22"
+  }
+ },
+ {
+  "name": "td_custom_center_beams",
+  "inp": {
+   "mode": "targeted",
+   "ra": 83.6,
+   "dec": 22.0,
+   "hours": 2.0,
+   "products": [
+    "pulsar",
+    "frb"
+   ]
+  },
+  "params": {
+   "psr_targeted_center_MHz": 1400.0,
+   "psr_untargeted_beam_arcsec": [
+    20.0,
+    15.0,
+    4.0
+   ],
+   "td_track_s": 3600.0,
+   "frb_dm": 1500.0,
+   "frb_width_ms": 5.0,
+   "extra_loss_percent": 5.0,
+   "frb_gamma": 0.5,
+   "pt_tsamp_us": 10.0
+  }
+ },
+ {
+  "name": "td_long_track_south",
+  "inp": {
+   "mode": "survey",
+   "ra": 300.0,
+   "dec": -25.0,
+   "products": [
+    "pulsar",
+    "frb"
+   ]
+  },
+  "params": {
+   "td_track_s": 20000.0,
+   "psr_period_ms": 2000.0,
+   "psr_dm": 1200.0,
+   "psr_targeted_center_MHz": 1990.0
+  }
+ },
+ {
+  "name": "td_unobservable",
+  "inp": {
+   "mode": "survey",
+   "ra": 10.0,
+   "dec": -40.0,
+   "products": [
+    "pulsar",
+    "frb",
+    "continuum"
+   ]
+  }
+ },
+ {
+  "name": "targeted_low_dec_widths",
+  "inp": {
+   "mode": "targeted",
+   "ra": 40.0,
+   "dec": -25.0,
+   "hours": 3.0
+  },
+  "params": {
+   "hi_widths_kms": [
+    30.0,
+    120.0,
+    400.0,
+    700.0
+   ]
+  }
+ },
+ {
+  "name": "survey_flat_tsys_beam_list",
+  "inp": {
+   "mode": "survey",
+   "ra": 300.0,
+   "dec": 20.0
+  },
+  "params": {
+   "tsys_zenith_K": 21.4,
+   "psr_untargeted_beam_arcsec": [
+    12.0,
+    9.0,
+    7.0
+   ]
+  },
+  "rfi": "measured"
+ }
+]

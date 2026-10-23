@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dsa-etc"
+version = "3.1.0"
+description = "Deep Synoptic Array (DSA) sensitivity and exposure-time calculator"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.22"]
+
+[project.scripts]
+dsa-etc = "dsa_etc.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["dsa_etc*"]
+
+[tool.setuptools.package-data]
+dsa_etc = ["data/*.json"]

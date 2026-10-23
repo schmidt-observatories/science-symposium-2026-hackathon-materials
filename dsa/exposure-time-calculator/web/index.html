@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DSA Sensitivity Calculator</title>
+<meta name="description" content="Noise, resolution and detection limits for Deep Synoptic Array data products.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Michroma&display=swap">
+<!-- BUILD:CSS --><link rel="stylesheet" href="css/app.css"><!-- /BUILD:CSS -->
+</head>
+<body>
+<header class="appbar">
+  <div class="wrap appbar-row">
+    <a class="wordmark" href="#calculator" aria-label="Deep Synoptic Array: calculator">
+      <svg viewBox="0 0 192 60" role="img" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="4.2" stroke-linejoin="round"><path d="M14.4 12.1H52a12 12 0 0 1 12 12v8.2a12 12 0 0 1-12 12H14.4z"/><path d="M120 12.1H81a8 8 0 0 0-8 8v1a8 8 0 0 0 8 8h29a8 8 0 0 1 8 8v-.4a8 8 0 0 1-8 8H71" stroke-linejoin="round"/><path d="M126.5 46.4 153 12.6l26.5 33.8" stroke-linejoin="miter"/></g></svg>
+      <span>Deep Synoptic Array</span>
+    </a>
+    <nav class="topnav" aria-label="Main">
+      <a href="#calculator" data-nav="calculator">Calculator</a>
+      <div class="dropdown" id="docs-menu">
+        <button type="button" class="dropdown-btn" aria-haspopup="true" aria-expanded="false" data-nav="docs">Documentation <span aria-hidden="true">▾</span></button>
+        <ul class="dropdown-menu" role="menu">
+          <li role="none"><a role="menuitem" href="#guide">User guide</a></li>
+          <li role="none"><a role="menuitem" href="#methods">Methods</a></li>
+          <li role="none"><a role="menuitem" href="#survey-plan">Survey plan</a></li>
+          <li role="none"><a role="menuitem" href="#specs">DSA specifications</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============================================================ calculator view -->
+  <div class="view" id="view-calculator">
+    <section class="masthead">
+      <img class="hero-img" src="img/hero-1200.jpg" srcset="img/hero-1200.jpg 1200w, img/hero-2400.jpg 2400w" sizes="100vw" alt="Two DSA prototype antennas in Owens Valley with the snow-covered Sierra Nevada behind them">
+      <div class="wrap"><h1>DSA Sensitivity Calculator</h1></div>
+    </section>
+
+    <div class="wrap calc" id="calculator">
+      <form class="panel inputs" id="form" novalidate autocomplete="off">
+        <div class="calc-bar">
+          <button class="btn btn-primary btn-calc" type="submit" id="calc-btn">Calculate</button>
+        </div>
+
+        <div class="field">
+          <span class="label" id="mode-label">Observation <button type="button" class="qm" data-tip="Survey: the imaging products at this position after the planned survey epochs (or a depth you choose). Targeted: a single pointing tracked for the time you set.">?</button></span>
+          <div class="segmented" role="group" aria-labelledby="mode-label">
+            <button type="button" id="mode-survey" aria-pressed="true">Survey products</button>
+            <button type="button" id="mode-targeted" aria-pressed="false">Targeted</button>
+          </div>
+        </div>
+
+        <div class="field" id="targeted-opts" hidden>
+          <div class="row2">
+            <div class="field">
+              <label for="hours">On-source time (h) <button type="button" class="qm" data-tip="Total time on the target. Each transit gives at most ±2 h of hour angle above 20° elevation; longer requests are split over several transits. The pulsar and FRB products use this time too.">?</button></label>
+              <input id="hours" class="mono" type="number" min="0.1" max="2000" step="0.5" value="4">
+            </div>
+            <div class="field">
+              <label for="weighting">Image weighting <button type="button" class="qm" data-tip="How visibilities are weighted when imaging, and how the ten 130-MHz windows are summed into the full-band image (optimal: inverse-variance weights; equal: equal weights). Robust, R = 0.46–1.94 raises the robust parameter with frequency, from 0.46 at 0.75 GHz to 1.94 at 1.95 GHz; Robust, R = 0.4 uses 0.4 at all frequencies. Auto picks the combination with the lowest total (thermal and confusion) noise.">?</button></label>
+              <select id="weighting">
+                <option value="auto">Auto: lowest total noise</option>
+                <option value="natural:optimal">Natural · optimal summation</option>
+                <option value="natural:equal">Natural · equal summation</option>
+                <option value="robust_freq:optimal">Robust, R = 0.46–1.94 · optimal summation</option>
+                <option value="robust_freq:equal">Robust, R = 0.46–1.94 · equal summation</option>
+                <option value="robust_0p4:optimal">Robust, R = 0.4 · optimal summation</option>
+                <option value="robust_0p4:equal">Robust, R = 0.4 · equal summation</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label">Position (J2000) <button type="button" class="qm" data-tip="RA in degrees or hours (10:00:28.6); Dec in degrees or dd:mm:ss. The DSA observes north of Dec −30°.">?</button></span>
+          <div class="row2">
+            <div class="field">
+              <label for="ra">RA</label>
+              <input id="ra" class="mono" type="text" value="170.00" placeholder="170.0 or 11:20:00.0" spellcheck="false">
+            </div>
+            <div class="field">
+              <label for="dec">Dec</label>
+              <input id="dec" class="mono" type="text" value="+39.57" placeholder="+39.57 or -12:34:56" spellcheck="false">
+            </div>
+          </div>
+          <div class="parsed" id="pos-parsed" aria-live="polite"></div>
+          <div class="chips" aria-label="Example positions">
+            <button type="button" data-ra="150.12" data-dec="2.21">COSMOS</button>
+            <button type="button" data-ra="266.405" data-dec="-28.936">Galactic Center</button>
+            <button type="button" data-ra="202.47" data-dec="47.20">M51</button>
+            <button type="button" data-ra="83.633" data-dec="22.014">Crab</button>
+            <button type="button" data-ra="189.2" data-dec="62.2">GOODS-N</button>
+          </div>
+        </div>
+
+        <div class="field skymap-wrap survey-only">
+          <span class="label">Survey epochs <button type="button" class="qm" data-tip="The number of epochs planned for each survey tile in the selected survey plan (Advanced settings). Click the map to choose a position.">?</button> <span class="plan-name hint" id="plan-name"></span></span>
+          <div class="map-frame">
+            <canvas id="skymap" width="720" height="380" aria-label="Sky map of the survey epoch allocation; click to choose a position"></canvas>
+            <button type="button" class="map-expand" id="map-expand" aria-label="Enlarge the survey epochs map" title="Enlarge"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2h4v4M14 2l-5 5M6 14H2v-4M2 14l5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="map-tip" id="map-tip" hidden></div>
+          <div class="map-legend" id="map-legend"></div>
+        </div>
+
+        <div class="field survey-only" id="survey-depth">
+          <span class="label">Survey depth <button type="button" class="qm" data-tip="Full: every epoch planned for this position. Single: one visit. Custom: any number of epochs.">?</button></span>
+          <div class="radios">
+            <label><input type="radio" name="depth" value="full" checked> Full survey <span class="hint" id="depth-full-n"></span></label>
+            <label><input type="radio" name="depth" value="single"> Single epoch</label>
+            <label><input type="radio" name="depth" value="custom"> Custom: <input id="n-epochs" class="inline-num mono" type="number" min="1" max="100" step="1" value="3" aria-label="Number of epochs"> epochs</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="smooth">Smooth images to resolution (″) <button type="button" class="qm" data-tip="Convolve the continuum, HI and polarization images to a coarser Gaussian beam, for surface-brightness (brightness-temperature) sensitivity on larger scales. 0 keeps the native resolution.">?</button></label>
+          <div class="row2">
+            <input id="smooth" class="mono" type="number" min="0" max="3600" step="1" value="0">
+            <div class="chips" aria-label="Smoothing presets">
+              <button type="button" data-smooth="0">native</button><button type="button" data-smooth="10">10″</button><button type="button" data-smooth="30">30″</button><button type="button" data-smooth="60">1′</button><button type="button" data-smooth="300">5′</button>
+            </div>
+          </div>
+          <div class="checks single"><label><input type="checkbox" id="smooth-subtract" checked> Subtract sources detected at full resolution <button type="button" class="qm" data-tip="Before smoothing, remove every source above 5σ in the full-resolution image. What remains is the confusion from fainter sources, which is much lower.">?</button></label></div>
+        </div>
+
+        <fieldset class="field products-field">
+          <legend class="label">Data products <button type="button" class="qm" data-tip="Choose which products to calculate and show. Fewer products calculate faster.">?</button></legend>
+          <div class="prod-toggles">
+            <label><input type="checkbox" name="prod" value="continuum" checked><span>Continuum</span></label>
+            <label><input type="checkbox" name="prod" value="line" checked><span>Spectral line (HI)</span></label>
+            <label><input type="checkbox" name="prod" value="polarization" checked><span>Polarization</span></label>
+            <label><input type="checkbox" name="prod" value="frb" checked><span>Chronoscope: FRBs</span></label>
+            <label><input type="checkbox" name="prod" value="pulsar" checked><span>Chronoscope: pulsars</span></label>
+            <label><input type="checkbox" name="prod" value="pta" checked><span>Pulsar timing (PTA-like)</span></label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="rfi-select">RFI profile <button type="button" class="qm" data-tip="The fraction of each frequency lost to radio-frequency interference. It applies to every product, imaging, pulsars and FRBs alike.">?</button></label>
+          <select id="rfi-select">
+            <option value="default">Spring Valley model extrapolated</option>
+            <option value="measured">Spring Valley measured</option>
+            <option value="none">None (ideal, no flagging)</option>
+            <option value="upload">Upload a CSV…</option>
+          </select>
+          <div id="rfi-upload" hidden>
+            <input id="rfi-file" type="file" accept=".csv,.txt,text/csv,text/plain">
+            <p class="file-note">Two columns: frequency (MHz) and occupancy (0–1 or %).</p>
+          </div>
+          <div id="rfi-plot"></div>
+          <span class="hint" id="rfi-summary"></span>
+        </div>
+
+        <details class="adv" id="advanced">
+          <summary>Advanced settings</summary>
+          <div class="adv-grid">
+            <div class="adv-group">Survey plan</div>
+            <div class="field span2"><label for="variant">Plan <button type="button" class="qm" data-tip="How the 64,250 pointing-epochs of the survey are shared among the 429 tiles. Plan A is the default. The Survey plan page compares them.">?</button></label><select id="variant"></select></div>
+            <div class="field span2"><label for="survey-weighting">Survey image weighting <button type="button" class="qm" data-tip="Weighting for the survey products. Default: the scheme the survey plan chose for each tile, the one with the lowest total noise in the tile's final image. A choice here overrides it at every position.">?</button></label><select id="survey-weighting">
+                <option value="auto" selected>Survey plan (per tile)</option>
+                <option value="natural:optimal">Natural · optimal summation</option>
+                <option value="natural:equal">Natural · equal summation</option>
+                <option value="robust_freq:optimal">Robust, R = 0.46–1.94 · optimal summation</option>
+                <option value="robust_freq:equal">Robust, R = 0.46–1.94 · equal summation</option>
+                <option value="robust_0p4:optimal">Robust, R = 0.4 · optimal summation</option>
+                <option value="robust_0p4:equal">Robust, R = 0.4 · equal summation</option>
+              </select></div>
+
+            <div class="adv-group">System</div>
+            <div class="field"><label for="p-tsys">T<sub>sys</sub> at zenith (K) <button type="button" class="qm" data-tip="Empty: the measured system-temperature bandpass with RFI removed (median 21.4 K), used by every product. A number: that value, flat across the band. The rise with zenith angle (spillover and atmosphere) is added in both cases.">?</button></label><input id="p-tsys" class="mono" type="number" step="0.1" min="1" value="" placeholder="measured T(ν)"></div>
+            <div class="field"><label for="p-nant">Antennas</label><input id="p-nant" class="mono" type="number" step="1" min="2" value="1650"></div>
+            <div class="field"><label for="p-eta">Aperture efficiency</label><input id="p-eta" class="mono" type="number" value="0.67" disabled></div>
+            <div class="field"><label for="p-dish">Dish diameter (m)</label><input id="p-dish" class="mono" type="number" step="0.001" value="6.155"></div>
+            <div class="field"><label for="p-loss">Extra data loss (%) <button type="button" class="qm" data-tip="An additional fraction of data lost, on top of the RFI profile, for every product.">?</button></label><input id="p-loss" class="mono" type="number" step="1" min="0" max="95" value="0"></div>
+            <div class="field"><label for="p-beta">Confusion β<sub>min</sub> <button type="button" class="qm" data-tip="Number of beam areas per source at the confusion limit; 16 is standard, 25 is more conservative.">?</button></label><select id="p-beta"><option value="16" selected>16</option><option value="25">25</option></select></div>
+            <label class="toggle"><input id="p-gal" type="checkbox" checked> Include Galactic synchrotron in T<sub>sys</sub></label>
+
+            <div class="adv-group">Targeted tracks</div>
+            <div class="field"><label for="p-elmin">Min elevation (°)</label><input id="p-elmin" class="mono" type="number" step="1" min="5" max="80" value="20"></div>
+            <div class="field"><label for="p-hamax">Max |HA| per transit (h)</label><input id="p-hamax" class="mono" type="number" step="0.25" min="0.25" max="12" value="2"></div>
+
+            <div class="adv-group">Spectral line (HI)</div>
+            <div class="field span2"><label for="hi-widths">Line widths for HI mass limits (km s⁻¹) <button type="button" class="qm" data-tip="One HI-mass-limit column per width: the rest-frame line width over which the flux is summed (a boxcar). Up to five values, separated by commas.">?</button></label><input id="hi-widths" class="mono" type="text" value="50, 200, 500" spellcheck="false"></div>
+
+            <div class="adv-group">Time-domain products</div>
+            <div class="field survey-only"><label for="td-track">Track length (s) <button type="button" class="qm" data-tip="Observing time for the time-domain products (FRBs, pulsars and pulsar timing) in survey mode, centered on transit at this position. 1260 s is one survey pointing. In targeted mode the on-source time is used.">?</button></label><input id="td-track" class="mono" type="number" step="60" min="1" value="1260"></div>
+            <div class="field"><label for="td-scat">Scattering model <button type="button" class="qm" data-tip="Model for pulse broadening by the Galactic interstellar medium: the NE2025 electron-density model, or the average relation between scattering time and DM.">?</button></label><select id="td-scat"><option value="ne2025" selected>NE2025</option><option value="cordes22">τ–DM relation</option></select></div>
+            <div class="adv-sub">Chronoscope: pulsars</div>
+            <div class="field"><label for="psr-p">Period (ms)</label><input id="psr-p" class="mono" type="number" step="any" min="0.01" value="500"></div>
+            <div class="field"><label for="psr-w">Intrinsic width (ms) <button type="button" class="qm" data-tip="Full width at half maximum of the pulse before propagation effects.">?</button></label><input id="psr-w" class="mono" type="number" step="any" min="0.001" value="15"></div>
+            <div class="field"><label for="psr-dm">DM (pc cm⁻³) <button type="button" class="qm" data-tip="Dispersion measure. Leave empty to use half the total Galactic DM along this line of sight.">?</button></label><input id="psr-dm" class="mono" type="number" step="10" min="0" value="" placeholder="½ Galactic"></div>
+            <div class="field"><label for="psr-s">Flux density (mJy) <button type="button" class="qm" data-tip="Period-averaged flux density at the frequency to the right.">?</button></label><input id="psr-s" class="mono" type="number" step="any" min="0" value="0.02"></div>
+            <div class="field"><label for="psr-nu">at frequency (MHz)</label><input id="psr-nu" class="mono" type="number" step="10" min="100" value="1400"></div>
+            <div class="field"><label for="psr-alpha">Spectral index</label><input id="psr-alpha" class="mono" type="number" step="0.1" value="-1.6"></div>
+            <div class="field"><label for="psr-snr">Detection threshold (σ)</label><input id="psr-snr" class="mono" type="number" step="0.5" min="1" value="10"></div>
+            <div class="field"><label for="psr-center">Targeted band center <button type="button" class="qm" data-tip="Center of the 306.7-MHz band of the targeted beams. Both presets are always reported; a custom center is added.">?</button></label><select id="psr-center"><option value="953.35" selected>953.35 MHz</option><option value="1800">1800 MHz</option><option value="custom">Custom…</option></select></div>
+            <div class="field" id="psr-center-custom-wrap" hidden><label for="psr-center-custom">Custom center (MHz)</label><input id="psr-center-custom" class="mono" type="number" step="1" min="700" max="2002" value="1400"></div>
+            <div class="field"><label for="psr-beams">Untargeted beams, B1, B2, B3 (″) <button type="button" class="qm" data-tip="Width (FWHM) of the untargeted search beams in each band. Leave empty for 13.5″, 8.90″ and 6.98″. Wider beams cover more sky but are less sensitive.">?</button></label><input id="psr-beams" class="mono" type="text" placeholder="13.5, 8.90, 6.98" value=""></div>
+            <div class="adv-sub">Pulsar timing (PTA-like)</div>
+            <div class="field"><label for="pta-p">Period (ms)</label><input id="pta-p" class="mono" type="number" step="any" min="0.01" value="4"></div>
+            <div class="field"><label for="pta-w">Intrinsic width (ms)</label><input id="pta-w" class="mono" type="number" step="any" min="0.001" value="0.2"></div>
+            <div class="field"><label for="pta-dm">DM (pc cm⁻³)</label><input id="pta-dm" class="mono" type="number" step="1" min="0" value="20"></div>
+            <div class="field"><label for="pta-s">Flux density (mJy)</label><input id="pta-s" class="mono" type="number" step="any" min="0" value="1"></div>
+            <div class="field"><label for="pta-nu">at frequency (MHz)</label><input id="pta-nu" class="mono" type="number" step="10" min="100" value="1400"></div>
+            <div class="field"><label for="pta-alpha">Spectral index</label><input id="pta-alpha" class="mono" type="number" step="0.1" value="-1.6"></div>
+            <div class="field"><label for="pta-snr">Detection threshold (σ)</label><input id="pta-snr" class="mono" type="number" step="0.5" min="1" value="10"></div>
+            <div class="adv-sub">Chronoscope: FRBs</div>
+            <div class="field"><label for="frb-dm">DM (pc cm⁻³)</label><input id="frb-dm" class="mono" type="number" step="50" min="1" value="500"></div>
+            <div class="field"><label for="frb-w">Intrinsic width (ms)</label><input id="frb-w" class="mono" type="number" step="any" min="0.01" value="1"></div>
+            <div class="field"><label for="frb-snr">Detection threshold (σ)</label><input id="frb-snr" class="mono" type="number" step="0.5" min="1" value="10"></div>
+            <div class="field"><label for="frb-maxdm">Maximum searched DM <button type="button" class="qm" data-tip="The search covers DMs from 0 to this value; it sets the number of DM trials.">?</button></label><input id="frb-maxdm" class="mono" type="number" step="100" min="10" value="5000"></div>
+          </div>
+        </details>
+      </form>
+
+      <section class="results" id="results" aria-live="polite" aria-label="Results">
+        <div class="panel skeleton" id="loading">Loading sky model and array configuration…</div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ============================================================ documentation views -->
+  <div class="view doc-view" id="view-guide" hidden>
+    <div class="wrap doc-layout">
+      <nav class="doc-toc" aria-label="User guide contents"><!-- BUILD:GUIDE_TOC --><!-- /BUILD:GUIDE_TOC --></nav>
+      <article class="doc"><!-- BUILD:GUIDE --><p class="note">Run tools/build_web.py to render the user guide (docs/user-guide.md).</p><!-- /BUILD:GUIDE --></article>
+    </div>
+  </div>
+
+  <div class="view doc-view" id="view-methods" hidden>
+    <div class="wrap doc-layout">
+      <nav class="doc-toc" aria-label="Methods contents"><!-- BUILD:METHODS_TOC --><!-- /BUILD:METHODS_TOC --></nav>
+      <article class="doc"><!-- BUILD:METHODS --><p class="note">Run tools/build_web.py to render the methods (docs/model.md).</p><!-- /BUILD:METHODS --></article>
+    </div>
+  </div>
+
+  <div class="view doc-view" id="view-survey-plan" hidden>
+    <div class="wrap doc-layout single">
+      <article class="doc">
+        <h1>Survey plan</h1>
+        <p>The Cadenced All-Sky Survey (CASS) covers the sky north of declination −30.45° with 12,850 pointings of 21 minutes on a hexagonal grid. The total budget is five passes, 64,250 pointing-epochs. Epochs are assigned per tile: the sky is divided into 429 tiles of 30 pointings (the polar tile has 10), arranged in 15 declination tiers.</p>
+        <p>Each plan below is evaluated with the noise model of the calculator. Its figure of merit is the number of continuum sources detected above 5σ in the final full-band image of each tile, using the same source counts as the confusion model. Noise values are medians, over the tiles of each class, of the final full-band total (thermal and confusion) noise with the default RFI model.</p>
+        <div class="table-wrap"><table class="data" id="plan-table"></table></div>
+        <h2>Tile classes</h2>
+        <ul>
+          <li><b>Euclid/HSC footprint:</b> 146 tiles overlapping the Euclid Wide Survey and Hyper Suprime-Cam footprints. They receive 7 epochs in Plan A and the reference plan, 6 to 11 epochs (7 on average) in Plan B, and 4 to 6 epochs in Plan C.</li>
+          <li><b>Galactic plane and bulge:</b> 70 tiles at low Galactic latitude, observed to 7 epochs in every plan (one tile receives 8 in Plan C), which also supports pulsar confirmation and timing.</li>
+          <li><b>Wide area:</b> the remaining 213 tiles, at least 2 epochs per tile.</li>
+        </ul>
+        <h2>Plans</h2>
+        <p>Plan A is the default used by the calculator. It keeps 7 epochs in the Euclid/HSC footprint and the Galactic plane and bulge, and assigns the remaining pointings to the wide-area tiles where they add the most 5σ detections, with at least 2 epochs everywhere. Plan B gives the Euclid/HSC footprint the same total time as Plan A but divides it so that the final noise is equal across its tiles. Plan C maximizes the total number of detections, subject to 7 epochs in the Galactic plane and bulge and at least 2 elsewhere. The reference plan sets the wide-area depth by declination alone (4, 3 or 2 epochs) and uses 63,110 of the 64,250 available pointings.</p>
+        <p>The plan selector under Advanced settings in the calculator switches between plans. The depth at a position is averaged over the tiles within the primary beam, so it varies smoothly across tile boundaries.</p>
+      </article>
+    </div>
+  </div>
+
+  <div class="view doc-view" id="view-specs" hidden>
+    <div class="wrap doc-layout single">
+      <article class="doc">
+        <h1>DSA specifications</h1>
+        <p>The capabilities below, and every number in the calculator, assume the project baseline at the Final Design Review (DSA Overview at FDR; Hallinan et al. 2026).</p>
+        <figure class="panorama">
+          <img src="img/dsa-rendering-2000.jpg" srcset="img/dsa-rendering-1200.jpg 1200w, img/dsa-rendering-2000.jpg 2000w" sizes="(max-width: 1280px) 100vw, 1000px" alt="Rendering of DSA antennas on a sagebrush valley floor, with snow-capped mountains behind" width="2000" height="727">
+          <figcaption>Rendering of the Deep Synoptic Array.</figcaption>
+        </figure>
+        <h2>Array</h2>
+        <table class="data spec-table"><tbody>
+          <tr><td class="txt">Antennas</td><td class="txt">1,650 × 6.155 m</td></tr>
+          <tr><td class="txt">Site</td><td class="txt">Spring Valley, Nevada (latitude +39.55°)</td></tr>
+          <tr><td class="txt">Frequency range</td><td class="txt">0.70–2.00 GHz, dual linear polarization</td></tr>
+          <tr><td class="txt">Baselines</td><td class="txt">1,360,425; 10 m to 20.3 km</td></tr>
+          <tr><td class="txt">Resolution (natural weighting)</td><td class="txt">3.0″ × 2.3″ at 1.35 GHz, zenith</td></tr>
+          <tr><td class="txt">Primary beam</td><td class="txt">3.36°/ν<sub>GHz</sub> FWHM (2.49° at 1.35 GHz)</td></tr>
+          <tr><td class="txt">Sky coverage</td><td class="txt">δ ≥ −30°, 30,940 deg²</td></tr>
+        </tbody></table>
+        <h2>System</h2>
+        <table class="data spec-table"><tbody>
+          <tr><td class="txt">System temperature</td><td class="txt">measured T<sub>sys</sub>(ν) at zenith on cold sky, interference removed: 21.4 K median, 16.5–26 K across the band; spillover and atmosphere add with zenith angle</td></tr>
+          <tr><td class="txt">Aperture efficiency</td><td class="txt">0.67</td></tr>
+          <tr><td class="txt">Quantization</td><td class="txt">4-bit antenna voltages: efficiency 0.988 for the imaging products and the visibility beams</td></tr>
+        </tbody></table>
+        <h2>Backends</h2>
+        <table class="data spec-table"><tbody>
+          <tr><td class="txt">Radio Camera</td><td class="txt">imaging: ten 130.2-MHz continuum windows (Stokes I, V), three HI cubes, 500 × 2.6-MHz full-Stokes cubes, 6-s snapshot images</td></tr>
+          <tr><td class="txt">Chronoscope, FRB search</td><td class="txt">bands 880–980, 1310–1510 and 1650–1950 MHz; 122.68-kHz channels, 1-ms sampling; 6 × 10⁶ visibility beams per band</td></tr>
+          <tr><td class="txt">Chronoscope, pulsars</td><td class="txt">untargeted search: 2 × 10⁵ tapered visibility beams per band (13.5″ at 930 MHz, scaling as 1/ν), 1-ms sampling; targeted search and timing: voltage beams over 306.7 MHz, 0.1-ms sampling</td></tr>
+          <tr><td class="txt">Pulsar Timing subsystem</td><td class="txt">four coherently dedispersed voltage beams, each covering 0.70–2.00 GHz, which can be pointed in different directions</td></tr>
+        </tbody></table>
+        <h2>Survey</h2>
+        <table class="data spec-table"><tbody>
+          <tr><td class="txt">Pointings</td><td class="txt">12,850 per pass, 21 minutes each, hexagonal grid (1.667° × 1.45°)</td></tr>
+          <tr><td class="txt">Budget</td><td class="txt">64,250 pointing-epochs (five passes)</td></tr>
+        </tbody></table>
+      </article>
+    </div>
+  </div>
+</main>
+
+<dialog class="map-dialog" id="map-dialog" aria-labelledby="map-dialog-title">
+  <div class="map-dialog-head">
+    <div><h2 id="map-dialog-title">Survey epochs</h2><span class="hint" id="map-dialog-plan"></span></div>
+    <div class="map-dialog-tools">
+      <button type="button" class="btn btn-ghost btn-sm" id="map-zoom-out" aria-label="Zoom out">−</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="map-zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="map-zoom-reset">Reset</button>
+      <button type="button" class="btn btn-primary btn-sm" id="map-close">Close</button>
+    </div>
+  </div>
+  <div class="map-dialog-body">
+    <canvas id="skymap-lg" aria-label="Enlarged sky map of the survey epoch allocation; click to choose a position"></canvas>
+    <div class="map-tip" id="map-tip-lg" hidden></div>
+  </div>
+  <div class="map-legend" id="map-legend-lg"></div>
+  <p class="hint" style="margin:6px 0 0">Scroll or use + and − to zoom, drag to pan, click to choose a position.</p>
+</dialog>
+
+<div class="qtip" id="qtip" role="tooltip" hidden></div>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span style="display:flex;align-items:center;gap:10px;color:var(--accent)"><svg viewBox="0 0 192 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="4.2" stroke-linejoin="round"><path d="M14.4 12.1H52a12 12 0 0 1 12 12v8.2a12 12 0 0 1-12 12H14.4z"/><path d="M120 12.1H81a8 8 0 0 0-8 8v1a8 8 0 0 0 8 8h29a8 8 0 0 1 8 8v-.4a8 8 0 0 1-8 8H71"/><path d="M126.5 46.4 153 12.6l26.5 33.8" stroke-linejoin="miter"/></g></svg><span style="color:var(--muted)">Deep Synoptic Array · Caltech</span></span>
+    <span>DSA Sensitivity Calculator, version 3.1 · Gregg Hallinan with Claude Opus 5.5, with input from Vikram Ravi</span>
+  </div>
+</footer>
+
+<!-- BUILD:JS --><script src="js/dsa-engine.js"></script>
+<script src="js/app.js"></script><!-- /BUILD:JS -->
+</body>
+</html>

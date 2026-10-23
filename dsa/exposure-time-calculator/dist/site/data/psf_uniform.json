@@ -1,0 +1,18 @@
+{
+ "config": "dsa1650_P305_v2.5.6.8",
+ "freq_MHz": 1350.0,
+ "hour_angle_deg": 0.0,
+ "zenith": true,
+ "weighting": "uniform, uv cells of 1/FOV for a 2.0-arcmin localization image",
+ "uniform": {
+  "bmaj": 2.0311889522950133,
+  "bmin": 1.5692742379724927,
+  "pa": 94.11310696601811
+ },
+ "natural_check": {
+  "bmaj": 3.026110985887066,
+  "bmin": 2.310305219978891,
+  "pa": 90.33817445014576
+ },
+ "n_cells": 7054
+}

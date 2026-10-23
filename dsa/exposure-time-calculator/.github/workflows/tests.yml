@@ -1,0 +1,18 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  engines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: pip install numpy pytest
+      - name: Model checks (imaging and time domain)
+        run: python -m pytest tests/test_engine.py tests/test_chr.py
+      - name: Browser engine matches Python engine
+        run: python tests/make_reference.py && node tests/parity.test.js
