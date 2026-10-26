@@ -1,3 +1,5 @@
+![The Schmidt Observatory System](docs/tsos_banner.png)
+
 # Science Symposium 2026 — Hackathon Materials
 
 Notebooks, simulators, and sample data for the hackathon sessions at the inaugural
