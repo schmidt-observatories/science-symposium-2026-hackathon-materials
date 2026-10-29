@@ -104,7 +104,7 @@ Exercises 1–4 are in `exercises/`, solutions in `exercises/solutions/`; exerci
 with ArgusSim.
 
 Conventions: pixels are e⁻/s per 0.879″ segment pixel; times are TT; zeropoints are AB magnitudes for a 4.05″ radius
-aperture with a color term in g − r. The sample's flux conservation is approximate (`DATA.md`, Known limitations).
+aperture with a color term in β − ρ. The sample's flux conservation is approximate (`DATA.md`, Known limitations).
 
 ## Instrument quick-reference
 

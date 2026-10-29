@@ -38,7 +38,7 @@ the DQ and photocal records.
   UTC.
 - **Zeropoints** are AB magnitudes in each camera's band for fluxes in e⁻/s
   in a 4.05″ radius aperture, at the minipix center, with a gradient across
-  the minipix and a color term in g − r (pivot g − r = 0.6).
+  the minipix and a color term in β − ρ (pivot β − ρ = 0.6).
 - **DQ** records give, per 16 × 16 quadrant of a minipix cutout, the OR of the
   frame's data-quality flags and the number of flagged pixels; `argex.dq`
   names the bits.
