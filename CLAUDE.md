@@ -56,3 +56,7 @@ Each instrument's tutorial notebooks are the best first reference:
 - Python 3.13, conda env `notebook`
 - All packages installed in `/srv/conda/envs/notebook/lib/python3.13/site-packages/`
 - Web-based calculators also available at `https://simulators.schmidtobservatorysystem.org/`
+
+## Jupyter MCP tool paths
+
+`mcp__Jupyter_MCP_Server__*` tools (`read_notebook`, `read_notebook_cells`, etc.) take paths relative to the Jupyter server root, not the repo root or shell working directory. The repo is likely in a subdirectory of the server root, so prefix paths accordingly (e.g. `science-symposium-2026-hackathon-materials/lazuli/...`) and verify you are passing the correct path relative to the server root.
