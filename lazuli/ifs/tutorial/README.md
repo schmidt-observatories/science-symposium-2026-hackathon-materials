@@ -3,7 +3,8 @@
 Requirements: `pip install "slicersim>=1.4.2"` (plus `matplotlib` and `jupyter`).
 The first run downloads a few model files (SALT, kilonova models, CalSpec stars). The galaxy
 images and spectra (e.g. NGC 0628) come with the `lazuli_astrosim_data` package, installed with
-`slicersim`.
+`slicersim`. Web versions of the ETC: <https://simulators.schmidtobservatorysystem.org/ifs/> and, for
+transit spectroscopy, <https://simulators.schmidtobservatorysystem.org/ifs/transit/>.
 
 ## Tutorials
 

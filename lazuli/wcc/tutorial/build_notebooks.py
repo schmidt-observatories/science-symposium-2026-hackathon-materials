@@ -104,6 +104,10 @@ Lazuli Space Observatory: a 3.065 m unobscured telescope feeding a Sony IMX455 C
 The first thing it is used for is to answer *"what SNR do I get in t seconds, and how long do I
 need for SNR = 10?"*
 
+A **web version** of the same calculator is at <https://simulators.schmidtobservatorysystem.org/wcc/>:
+use it for a quick number, and these notebooks when you want sweeps, plots, your own spectra and
+simulated images.
+
 In this notebook:
 1. a scene and a simulation: `get_scene()` and `Simulation.from_sensorfilter()`,
 2. SNR for an exposure time, and exposure time for an SNR,
