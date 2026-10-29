@@ -1,6 +1,6 @@
 # Science Symposium 2026 — Hackathon Materials
 
-Notebooks, simulators, and sample data for the Schmidt Observatory System (TSOS) Science Symposium 2026 hackathon. The four observatories are **Lazuli** (space telescope: WCC wide-field camera + IFS slicer spectrograph + ESC coronagraph), **DSA-2000** (radio array), **Argus Array** (wide-field photometric survey), and **LFAST** (liquid-mirror telescope).
+Notebooks, simulators, and sample data for the Schmidt Observatory System (TSOS) Science Symposium 2026 hackathon. The four observatories are **Lazuli** (space telescope: WCC wide-field camera + IFS slicer spectrograph + ESC coronagraph), **DSA-2000** (radio array), **Argus Array** (wide-field photometric survey), and **LFAST** (array of 0.726 m telescopes feeding one fiber spectrograph).
 
 ## Directory layout
 
@@ -12,7 +12,7 @@ Notebooks, simulators, and sample data for the Schmidt Observatory System (TSOS)
 | `dsa/hackathon2026/` | DSA-2000 | HI cube, FRB mocks, pulsar timing notebooks |
 | `dsa/exposure-time-calculator/` | DSA-2000 | Sensitivity calculator: web page + Python package (`dsa_etc`) |
 | `argus/argus_survey_model/` | Argus Array | Survey simulator (`argus_sim`): sky coverage, depth, light curves |
-| `lfast/` | LFAST | ETC notebook and fiber throughput tables |
+| `lfast/tutorial/` | LFAST | Tutorial notebooks and exercises for the `lfast_etc` exposure time calculator |
 
 ## Key installed packages
 
@@ -29,6 +29,9 @@ Notebooks, simulators, and sample data for the Schmidt Observatory System (TSOS)
 ### DSA-2000
 - **`dsa_etc`** — sensitivity calculator CLI and Python API. Has its own `CLAUDE.md` at `dsa/exposure-time-calculator/CLAUDE.md` and a skill at `dsa/exposure-time-calculator/skill/dsa-sensitivity/SKILL.md`.
 
+### LFAST
+- **`lfast_etc`** — exposure time calculator for the telescope array (WIYN Bench + CSHELL); entry point `LFASTETC(preset, n_telescopes)` with `Source`, `Telescope`, `Instrument`, `Sky`. Package: <https://github.com/schmidt-observatories/lfast-etc>.
+
 ### Argus Array
 - **`argus_sim`** — survey simulator. Source in `argus/argus_survey_model/src/argus_sim/`.
 
@@ -41,7 +44,8 @@ Notebooks, simulators, and sample data for the Schmidt Observatory System (TSOS)
 Each instrument's tutorial notebooks are the best first reference:
 - WCC: `lazuli/wcc/tutorial/01_tdamm_transient_on_host.ipynb` through `07_ism_halpha_emission_line.ipynb`
 - IFS: `lazuli/ifs/tutorial/01_exposure_time_calculator.ipynb` through `06_cubes_and_fields.ipynb`
-- ESC: `lazuli/esc/01_k2-18b_trappist-1e_atmospheres.ipynb` through `13_exozodi_tolerance.ipynb`
+- ESC: `lazuli/esc/tutorial/01_etc_in_one_line.ipynb` through `05_zodi_and_exozodi.ipynb`
+- LFAST: `lfast/tutorial/01_etc_in_one_line.ipynb` through `04_sensitivity_maps_array_scaling.ipynb`
 
 ## Environment
 

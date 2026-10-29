@@ -1,5 +1,0 @@
-#Requirements.txt for LFAST_ETC 2026-10-12
-numpy~=2.0.0
-astropy~=6.1.0
-scipy~=1.14.0
-matplotlib~=3.9.0
