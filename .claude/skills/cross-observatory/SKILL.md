@@ -13,7 +13,7 @@ description: Multi-facility science with the Schmidt Observatory System. Load wh
 | **Lazuli IFS** | optical (0.4–0.68 µm) | 40–80 mas spaxels | 58×58 spaxels (narrow/wide field) | classification spectra; SN typing; kilonova spectral evolution |
 | **Lazuli ESC** | optical + near-IR | coronagraphic | ~few arcsec contrast | exoplanet atmosphere transmission spectra; direct imaging context |
 | **DSA** | radio 0.70–2.00 GHz | ~3.5″ (full-band imaging) | 3.4° primary beam (1.35 GHz) | continuum, HI, polarization; FRB detection & localization; pulsar timing |
-| **Argus Array** | optical g + ρ bands | ~3″ (ground, seeing-limited) | all-sky cadenced survey | variability; cadence / light-curve history; depth map at any position |
+| **Argus Array** | optical β + ρ bands | ~3″ (ground, seeing-limited) | all-sky cadenced survey | variability; cadence / light-curve history; depth map at any position |
 | **LFAST** | optical 412–686 nm (Bench, R~300–3600) + near-IR 1.08–1.75 µm (CSHELL, R 18k–43k) | seeing-limited | single-fiber (one target per pointing) | cadenced / rapid spectroscopic follow-up at moderate R; He 10830 / near-IR stellar lines (CSHELL); stellar activity monitoring (Ca II, Hα); the *only* TSOS facility with NIR spectroscopy |
 
 ## Common multi-facility patterns
@@ -70,7 +70,7 @@ Each tool returns SNR or limiting magnitude independently; combine them by posit
 # Argus depth at a position
 from argus_sim.lightcurve import SurveyRun
 run = SurveyRun("s3://…/argsim_5yr_…/")
-dm = run.depth_map("g")        # limmag column = 5-sigma stacked depth per tile
+dm = run.depth_map("beta")     # limmag column = 5-sigma stacked depth per tile
 
 # WCC depth for the same position, one pointing
 import wcc_etc
