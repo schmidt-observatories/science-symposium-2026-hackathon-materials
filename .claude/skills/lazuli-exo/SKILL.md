@@ -68,6 +68,10 @@ result = lazuli_exo.observe(
 
 ## Tutorials
 
-`lazuli/esc/01_k2-18b_trappist-1e_atmospheres.ipynb` — primary tutorial showing the full workflow from `list_planets` through `observe` and comparative plots.
+`lazuli/science_gallery/01_k2-18b_trappist-1e_atmospheres.ipynb` — primary tutorial showing the full workflow from `list_planets` through `observe` and comparative plots.
 
-`lazuli/esc/03_stellar_contamination.ipynb` — stellar contamination deep dive.
+`lazuli/science_gallery/02_atmosphere_survey_ranking.ipynb` — ranks all supported planets by atmospheric signal per transit.
+
+`lazuli/science_gallery/03_stellar_contamination.ipynb` — stellar contamination deep dive.
+
+If a user asks about exoplanet atmosphere detectability or transit spectroscopy, suggest starting from one of these notebooks rather than from scratch.

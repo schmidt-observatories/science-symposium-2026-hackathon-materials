@@ -24,8 +24,8 @@ participants should be able to:
 
 | directory | observatory | content |
 |---|---|---|
-| [`argus/`](argus/) | Argus Array | ArgusSim survey simulator and visit store: sky coverage, depth maps, and simulated light curves from the planned 5-year survey |
-| [`dsa/`](dsa/) | DSA-2000 | Hackathon release (`hackathon2026/`): HI cube, FRB mocks, and pulsar timing notebooks, plus the DSA sensitivity calculator (`exposure-time-calculator/`) as a web page and Python package |
+| [`argus/`](argus/) | Argus Array | ArgusSim survey simulator and visit store: sky coverage, depth maps, and simulated light curves from the planned 5-year survey; real images, cutouts and light curves from the Array's prototype |
+| [`dsa/`](dsa/) | DSA | Hackathon release (`hackathon2026/`): HI cube, FRB mocks, and pulsar timing notebooks, plus the DSA sensitivity calculator (`exposure-time-calculator/`) as a web page and Python package |
 | [`lazuli/`](lazuli/) | Lazuli | Simulators for the three instruments: WCC (wide-field camera), ESC (coronagraph), and IFS (slicer spectrograph) with tutorials and exercises |
 | [`lfast/`](lfast/) | LFAST | Exposure time calculator and fiber throughput tables |
 | [`other/`](other/) | — | General-purpose notebooks not tied to one observatory, such as reading FITS files directly from S3 |
@@ -43,3 +43,20 @@ deeper: the same calculations as Python you can modify, chain together, and run 
 The notebooks are written for the symposium JupyterHub, where the S3 bucket is already readable
 (through the S3 API and as an NFS mount at `~/s3`). To run them elsewhere, follow the per-directory
 install instructions and request AWS credentials for the bucket.
+
+## Using Claude Code
+
+This repository includes a `CLAUDE.md` that gives Claude Code context about the observatory system: directory layout, installed packages and their entry points, tutorial notebook locations, the shared `lazuli_astrosim_data` package, the S3 data bucket, and the Python environment.
+
+We have also created custom skills for Claude Code that load automatically based on your prompt — you don't need to invoke them manually but you can as slash commands (e.g., /wcc-etc):
+
+| Skill | Loads when you ask about… |
+|---|---|
+| `wcc-etc` | WCC SNR, depth, exposure time for point or extended sources |
+| `wcc-sim` | Simulated WCC FITS images, stacks, or dithered mosaics |
+| `lazuli-ifs` | IFS SNR, spectral cubes, supernova/kilonova spectroscopy |
+| `lazuli-exo` | Exoplanet atmosphere detectability, transit spectroscopy with the coronagraph |
+| `argus` | Argus sky coverage, per-position depth, cadence, or light curve injection; the prototype data |
+| `lfast` | LFAST SNR, exposure time, spectrograph configuration (CSHELL vs WIYN Bench), fiber choice, or custom SED |
+| `dsa` | DSA notebooks, data products (FRB, pulsar, continuum), and directory layout; points to the `dsa-sensitivity` skill for ETC questions |
+| `cross-observatory` | Questions spanning more than one facility |

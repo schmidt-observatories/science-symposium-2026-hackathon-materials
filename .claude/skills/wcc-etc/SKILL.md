@@ -83,3 +83,8 @@ cfg = wcc_etc.get_sensor_config("wcc_prime")    # named sensor config
 ## Tutorials
 
 `lazuli/wcc/tutorial/` — especially `01_tdamm_transient_on_host.ipynb` and `03_exo_transit_photometry.ipynb`.
+
+Science gallery notebooks are worked examples — prefer pointing users to these as a starting point:
+- `lazuli/science_gallery/08_fast_transient_depth.ipynb` — depth in 1/5/30 min, kilonova colour
+- `lazuli/science_gallery/09_tde_in_galaxy_nuclei.ipynb` — nuclear transient on a bright bulge
+- `lazuli/science_gallery/10_precision_transit_photometry.ipynb` — bright-star photometric precision, Earth-transit detectability

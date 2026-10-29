@@ -57,8 +57,8 @@ NOTE = ("\n\n> **JupyterHub copy:** reads the release straight from the S3 mount
         "no `MANIFEST.csv`, `fold.par`, `volume.json` or DSA-03/11/12 files). ")
 KS = {"display_name": "Python 3", "language": "python", "name": "python3"}
 
-# ---------------- dsa3_load_plot: use the DPR-DSA-07 cubes that are present
-nb = nbf.read(SRC / "dsa3_load_plot.ipynb", as_version=4)
+# ---------------- dsa03_load_plot: use the DPR-DSA-07 cubes that are present
+nb = nbf.read(SRC / "dsa03_load_plot.ipynb", as_version=4)
 nb.cells[0].source += NOTE + "It loads a DSA-07 cube and averages it over frequency to get a 2D image."
 sub(nb, 1, 'PRODUCT = "DPR-DSA-03"', 'PRODUCT = "DPR-DSA-07"')
 sub(nb, 1, "from dsahackathon2026 import data_dir, find_product\n", "from pathlib import Path\nfrom dsahackathon2026 import find_product\n")
@@ -70,7 +70,7 @@ sub(nb, 3, "    image = np.asarray(primary.data, dtype=float)\n",
     "    print(f\"cube shape: {image.shape}; averaging over {image.shape[0]} channels\")\n"
     "    image = np.nanmean(image, axis=0)\n")
 nb.metadata["kernelspec"] = KS
-nbf.write(nb, DST / "dsa3_load_plot.ipynb")
+nbf.write(nb, DST / "dsa03_load_plot.ipynb")
 
 # ---------------- dsa13_inspect_archives
 nb = nbf.read(SRC / "dsa13_inspect_archives.ipynb", as_version=4)

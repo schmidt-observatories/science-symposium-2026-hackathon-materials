@@ -41,7 +41,7 @@ spectral-line cubes. No notebook reads DPR-DSA-07. The files each notebook actua
 
 | Notebook | Needs under `data/` | Present? |
 |---|---|---|
-| `dsa3_load_plot.ipynb` | `*DPR-DSA-03*.fits` continuum mosaic | **no** |
+| `dsa03_load_plot.ipynb` | `*DPR-DSA-03*.fits` continuum mosaic | **no** |
 | `dsa11_dsa12_frb.ipynb` | `*DPR-DSA-11*.h5`, `*DPR-DSA-12*.h5` | **no** |
 | `dsa13_inspect_archives.ipynb` | `MANIFEST.csv`, `fold.par` (or `ephemerides/P3/fold.par`), CHR bundle `README.md`, `volume.json`, archives | only 6/42 archives |
 | `dsa13_timing.ipynb` | `MANIFEST.csv`, `fold.par`, archives from all 7 visits | only 6/42 archives |
@@ -62,7 +62,7 @@ Notes:
 ## Verification run (py313 kernel, after change 1)
 
 `jupyter nbconvert --execute --allow-errors` on all four notebooks:
-- `dsa3_load_plot`: fails at `find_product("DPR-DSA-03")` — file not present.
+- `dsa03_load_plot`: fails at `find_product("DPR-DSA-03")` — file not present.
 - `dsa11_dsa12_frb`: fails at `find_product("DPR-DSA-11")` — file not present.
 - `dsa13_inspect_archives`: fails at `H.inventory()` — no `MANIFEST.csv`.
 - `dsa13_timing`: fails at `H.inventory()` — no `MANIFEST.csv`.
@@ -77,13 +77,13 @@ was reached in any notebook.
   CHR archive, and `vap`, `pam`, `psradd`, `pat`, `paas`, `psrsmooth` on PATH.
 - Registered a Jupyter kernel **"Python 3 (convening2026)"** (`ipykernel install --user
   --name convening2026`). Select it for the two `dsa13_*` notebooks.
-- `dsa3_load_plot` and `dsa11_dsa12_frb` need no PSRCHIVE; the default `python3` kernel
+- `dsa03_load_plot` and `dsa11_dsa12_frb` need no PSRCHIVE; the default `python3` kernel
   (`py313`) runs them once the files are in `data/`.
 
 ## What is still needed to run each notebook
 
 Copy from the hub (`~/s3/schmidt-observatory-system/dsa/v2-convening/`) into `data/`:
-- `dsa3_load_plot`: a `*DPR-DSA-03*.fits` mosaic (e.g. `mockfm_DPR-DSA-03_mp37_701.235_20260922.fits`, 2.2 GB).
+- `dsa03_load_plot`: a `*DPR-DSA-03*.fits` mosaic (e.g. `mockfm_DPR-DSA-03_mp37_701.235_20260922.fits`, 2.2 GB).
 - `dsa11_dsa12_frb`: `*DPR-DSA-11*.h5` and `*DPR-DSA-12*.h5`.
 - `dsa13_inspect_archives` / `dsa13_timing`: the whole CHR bundle (`MANIFEST.csv`, `fold.par`
   or `ephemerides/P3/fold.par`, the bundle `README.md`, `volume.json`, all 42 archives,
@@ -94,12 +94,12 @@ Copy from the hub (`~/s3/schmidt-observatory-system/dsa/v2-convening/`) into `da
 Copies of three notebooks with targeted cell edits so they run on the local data. Built by a
 small nbformat script (session scratch `build_fixed.py`), executed headless, and verified:
 no error outputs, all code cells executed, figures produced
-(`dsa3_load_plot` 4/4 cells, 1 figure; `dsa13_inspect_archives` 11/11, 5 figures;
+(`dsa03_load_plot` 4/4 cells, 1 figure; `dsa13_inspect_archives` 11/11, 5 figures;
 `dsa13_timing` 13/13, 6 figures). Originals in `notebooks/` untouched.
 
 Edits per notebook (all marked with comments in the cells):
 
-- **dsa3_load_plot**: `PRODUCT = "DPR-DSA-07"`; if the image is a 3D cube, average over the
+- **dsa03_load_plot**: `PRODUCT = "DPR-DSA-07"`; if the image is a 3D cube, average over the
   frequency axis before plotting. (`data/` has DSA-07 cubes, not a DSA-03 mosaic.)
 - **dsa13_inspect_archives**: kernel set to `convening2026`; inventory built from
   `data/*.psrfits` headers (no `MANIFEST.csv`; `B_k`/`theta_deg`/`discovery` are not

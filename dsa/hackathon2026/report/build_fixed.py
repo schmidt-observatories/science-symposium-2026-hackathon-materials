@@ -30,8 +30,8 @@ FOLDPAR = '''FOLD = DS / "fold.par"
 if not FOLD.exists():   # not in this download: recover the folding ephemeris stored in the archive's PSRPARAM HDU
     FOLD.write_text("\\n".join(r[0] for r in fits.getdata(arfile, "PSRPARAM")) + "\\n")'''
 
-# ---------------- dsa3_load_plot: use the DPR-DSA-07 cubes that are present
-nb = nbf.read(SRC / "dsa3_load_plot.ipynb", as_version=4)
+# ---------------- dsa03_load_plot: use the DPR-DSA-07 cubes that are present
+nb = nbf.read(SRC / "dsa03_load_plot.ipynb", as_version=4)
 nb.cells[0].source += ("\n\n> **Local copy:** `data/` holds DPR-DSA-07 spectral cubes instead of a DPR-DSA-03 mosaic, "
                        "so this copy loads a DSA-07 cube and averages it over frequency to get a 2D image.")
 sub(nb, 1, 'PRODUCT = "DPR-DSA-03"', 'PRODUCT = "DPR-DSA-07"')
@@ -40,7 +40,7 @@ sub(nb, 3, "    image = np.asarray(primary.data, dtype=float)\n",
     "if image.ndim == 3:   # DPR-DSA-07 is a (freq, dec, ra) cube: average over frequency for a 2D image\n"
     "    print(f\"cube shape: {image.shape}; averaging over {image.shape[0]} channels\")\n"
     "    image = np.nanmean(image, axis=0)\n")
-nbf.write(nb, DST / "dsa3_load_plot.ipynb")
+nbf.write(nb, DST / "dsa03_load_plot.ipynb")
 
 # ---------------- dsa13_inspect_archives
 nb = nbf.read(SRC / "dsa13_inspect_archives.ipynb", as_version=4)

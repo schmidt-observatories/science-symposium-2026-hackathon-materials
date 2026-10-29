@@ -84,3 +84,9 @@ sn.simulation.variance_budget()   # dict: photon, dark, read, thermal
 ## Tutorials
 
 `lazuli/ifs/tutorial/` — start with `01_exposure_time_calculator.ipynb`, then `02_lazuli_targets.ipynb` and `05_variance_budget.ipynb`.
+
+Science gallery notebooks are worked examples for common IFS science cases — prefer pointing users to these as a starting point rather than building from scratch:
+- `lazuli/science_gallery/04_sn_ia_redshift_reach.ipynb` — SN Ia classification spectrum, redshift reach
+- `lazuli/science_gallery/05_kilonova_followup.ipynb` — kilonova spectroscopic follow-up at 40 and 200 Mpc
+- `lazuli/science_gallery/06_emission_line_galaxies.ipynb` — faint H-alpha / [O III] at z=1
+- `lazuli/science_gallery/07_bright_limits_and_calibration.ipynb` — bright-limit and CalSpec calibration

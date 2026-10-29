@@ -83,3 +83,5 @@ python -m wcc_sim.cli --help
 ## Tutorials
 
 `lazuli/wcc/tutorial/` — especially `04_cosmo_deep_field_depth.ipynb` and `05_cosmo_dithered_stack.ipynb`.
+
+`lazuli/science_gallery/11_crowded_field_photometry.ipynb` — crowded-field (M4 core) photometric precision with `wcc_sim` + `wcc_phot`; use as a starting point for crowded-field or cluster science cases.

@@ -1,7 +1,7 @@
-# DSA-2000 — 2026 Science Convening Release
+# DSA — 2026 Science Convening Release
 
 Notebooks and sample data for the **2026 Science Convening of The Schmidt
-Observatory System** (DSA-2000 contribution).
+Observatory System** (DSA contribution).
 
 This branch (`main`) is for **notebook users**: install the environment, download
 the sample into `data/`, and run the notebooks.
@@ -28,7 +28,7 @@ Put all convening products in the single directory **`data/`** (not in git):
 
 ```bash
 # Once the convening bucket/prefix is assigned:
-aws s3 sync s3://BUCKET/PREFIX/dsa-2000/ data/
+aws s3 sync s3://BUCKET/PREFIX/dsa/ data/
 ```
 
 Details and expected files: [data/README.md](data/README.md).
@@ -42,7 +42,7 @@ jupyter lab
 
 | Notebook | What it does |
 |----------|----------------|
-| [dsa3_load_plot.ipynb](notebooks/dsa3_load_plot.ipynb) | Load and plot a **DPR-DSA-03** continuum mosaic |
+| [dsa03_load_plot.ipynb](notebooks/dsa03_load_plot.ipynb) | Load and plot a section of the **DSA-03** forward-modeled full-band continuum mosaic, with a WCS coordinate overlay |
 | [dsa13_inspect_archives.ipynb](notebooks/dsa13_inspect_archives.ipynb) | Inspect **DPR-DSA-13** CHR folded pulsar archives |
 | [dsa13_timing.ipynb](notebooks/dsa13_timing.ipynb) | Timing workflow on DPR-DSA-13 (PSRCHIVE + PINT) |
 | [dsa11_dsa12_frb.ipynb](notebooks/dsa11_dsa12_frb.ipynb) | Explore **DPR-DSA-11** / **DPR-DSA-12** FRB mocks |

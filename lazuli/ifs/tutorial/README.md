@@ -1,7 +1,9 @@
 # slicersim hands-on: simulating Lazuli slicer observations
 
-Requirements: `pip install slicersim` (plus `matplotlib` and `jupyter`).
-The first run downloads a few model files (SALT, kilonova models, CalSpec stars).
+Requirements: `pip install "slicersim>=1.4.2"` (plus `matplotlib` and `jupyter`).
+The first run downloads a few model files (SALT, kilonova models, CalSpec stars). The galaxy
+images and spectra (e.g. NGC 0628) come with the `lazuli_astrosim_data` package, installed with
+`slicersim`.
 
 ## Tutorials
 
@@ -13,6 +15,8 @@ The first run downloads a few model files (SALT, kilonova models, CalSpec stars)
 | [04 — Changing properties](04_changing_properties.ipynb) | `change_properties()` on the target and the detector, EOL configuration, magnitude of any target |
 | [05 — Variance budget](05_variance_budget.ipynb) | the variance sources, `switch_off`, `get_variance_contribution()` |
 | [06 — Cubes and fields](06_cubes_and_fields.ipynb) | `get_cube()`, the narrow and wide fields, projection onto the detector with `SlicerMapper` |
+| [07 — Host galaxies](07_host_galaxies.ipynb) | a SN in its host (`host="ngc0628"`, `"sersic:bb-5000"`), host properties, redshift, the host as a noise source, `LazuliGalaxy` |
+| [08 — Spectrum extraction](08_spectrum_extraction.ipynb) | `get_spectrum()` extractions: optimal or aperture photometry (`method`, `aperture`), the host spectrum (`of_host`) |
 
 ## Exercises
 
@@ -20,8 +24,8 @@ The first run downloads a few model files (SALT, kilonova models, CalSpec stars)
 |---|---|---|
 | [1 — Planning with the ETC](exercises/ex1_planning_with_the_etc.ipynb) | 01–02 | ★☆☆☆☆ |
 | [2 — Your own targets](exercises/ex2_your_own_targets.ipynb) | 01–02 | ★★☆☆☆ |
-| [3 — Readout strategy](exercises/ex3_readout_strategy.ipynb) | 03 | ★★★☆☆ |
-| [4 — What if?](exercises/ex4_what_if.ipynb) | 03–04 | ★★★☆☆ |
-| [5 — Noise, cubes and the detector](exercises/ex5_noise_cubes_detector.ipynb) | 05–06 | ★★★★☆ |
+| [3 — What if?](exercises/ex3_what_if.ipynb) | 03–04 | ★★★☆☆ |
+| [4 — Supernovae in their hosts](exercises/ex4_supernovae_in_their_hosts.ipynb) | 07–08 | ★★★☆☆ |
+| [5 — A kilonova in its host](exercises/ex5_kilonova_in_its_host.ipynb) | 02, 07–08 | ★★★☆☆ |
 
 Solutions are in [`exercises/solutions/`](exercises/solutions/).
