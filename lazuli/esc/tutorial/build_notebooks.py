@@ -88,6 +88,9 @@ focal-plane mask, a deformable mirror that digs a dark hole of raw contrast ~$10
 filters between 400 and 730 nm. The question it answers is *"how long until this planet, at this
 contrast and separation, reaches S/N = 5?"*
 
+A **web version** of the same calculator is at <https://simulators.schmidtobservatorysystem.org/esc/>:
+use it for a quick number, and these notebooks when you want sweeps, plots and the full model.
+
 The model is analytic: five count rates in a resolution-element-sized aperture (planet, residual
 starlight "speckles", zodiacal light, exozodiacal light, and the host star for saturation), with a
 speckle noise floor that post-processing can only partly remove.
