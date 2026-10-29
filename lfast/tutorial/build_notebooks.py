@@ -89,6 +89,10 @@ The throughput model follows Choi et al. (2026, SPIE 14147). The question it ans
 do I need to expose to reach a given signal-to-noise ratio (SNR) on this target, and what SNR do I
 get in a given time?"*
 
+A **web version** of the same calculator, with the same presets and sky, is at
+<https://simulators.schmidtobservatorysystem.org/lfast/>: use it for a quick number, and these
+notebooks when you want sweeps, plots and your own spectra.
+
 **One idea to hold on to: everything is per resolution element.** The spectrum is cut into bins
 one resolution element (resel) wide, $\delta\lambda = \lambda/R$. In each bin the source delivers
 $N_*$ electrons per second (summed over the array), the sky $N_{sky}$ electrons per second per pixel,
