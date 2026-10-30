@@ -28,6 +28,33 @@ t = slicersim.lazuli_sn_etc(
 print(f"Exposure time: {t:.0f} s")
 ```
 
+For a SN in a host galaxy (host adds photon noise under the point source):
+```python
+sn = slicersim.LazuliSupernova(redshift=0.1, host="ngc0628")
+# or an analytic Sersic profile with a blackbody spectrum:
+sn = slicersim.LazuliSupernova(redshift=0.1, host="sersic:bb-5000")
+# or fully customised:
+sn = slicersim.LazuliSupernova(redshift=0.1,
+                                host={"refmodel": "sersic:bb-6000",
+                                      "r_kpc": 3, "n": 1,
+                                      "magabs": -21.5, "band": "sdssr"})
+sn.setup_to_snr(10, lbda_range=[4000, 6800])
+print(sn.simulation.time)    # exposure time in seconds
+```
+
+Host model names are `"spatial:spectral"`:
+- spatial: `ngcXXXX` (NGC image, e.g. `ngc0628`) or `sersic` (analytic; params `r_kpc`, `n`, `ellip`, `theta`)
+- spectral: `ngcXXXX` (galaxy template) or `bb-<T>` (blackbody, e.g. `bb-5000`)
+- A bare name like `"ngc0628"` means `"ngc0628:ngc0628"`.
+
+Move the SN relative to the host (positions in spaxels from field center):
+```python
+sn.change_properties(pointsource__position=(10, 0), host__position=(0, 0))
+sn.change_properties(host__magabs=-22, host__r_kpc=3)   # change host brightness / size
+```
+
+Inspect host defaults: `from slicersim.scene.host import get_host_config; get_host_config("ngc0628")`
+
 For an arbitrary spectrum (wavelength array in Å, flux in erg/s/cm²/Å):
 ```python
 t = slicersim.lazuli_etc(lbda, flux, snr=10)
@@ -83,9 +110,13 @@ sn.simulation.variance_budget()   # dict: photon, dark, read, thermal
 
 ## Tutorials
 
-`lazuli/ifs/tutorial/` — start with `01_exposure_time_calculator.ipynb`, then `02_lazuli_targets.ipynb` and `05_variance_budget.ipynb`.
+`lazuli/ifs/tutorial/` — key notebooks:
+- `01_exposure_time_calculator.ipynb` — basic ETC usage
+- `02_lazuli_targets.ipynb` — target classes (`LazuliSupernova`, `LazuliKilonova`, etc.)
+- `05_variance_budget.ipynb` — noise budget breakdown
+- `07_host_galaxies.ipynb` — **host galaxy models**: SN in a host, NGC and Sersic models, `change_properties(host__...)`, `LazuliGalaxy`
 
-Science gallery notebooks are worked examples for common IFS science cases — prefer pointing users to these as a starting point rather than building from scratch:
+Science gallery notebooks are worked examples for common IFS science cases (in `lazuli/science_gallery/`) — prefer pointing users to these as a starting point rather than building from scratch:
 - `lazuli/science_gallery/04_sn_ia_redshift_reach.ipynb` — SN Ia classification spectrum, redshift reach
 - `lazuli/science_gallery/05_kilonova_followup.ipynb` — kilonova spectroscopic follow-up at 40 and 200 Mpc
 - `lazuli/science_gallery/06_emission_line_galaxies.ipynb` — faint H-alpha / [O III] at z=1

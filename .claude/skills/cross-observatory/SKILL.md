@@ -58,7 +58,7 @@ ETC chain: run `dsa_etc` for FRB fluence limit → `wcc_etc.Simulation` for host
 1. **Argus** discovers SN candidates in survey (depth_map + inject with `sncosmo` template)
 2. **WCC** provides multi-band light curve (g, r: use `wcc_etc.FluxModel` / `LightCurveSimulator`)
 3. **Classification spectrum** — two options:
-   - **Lazuli IFS** (`LazuliSupernova(model="salt", redshift=z)`): for SNe at z ≳ 0.05 or when high-fidelity spectral matching is needed
+   - **Lazuli IFS** (`LazuliSupernova(model="salt", redshift=z)`): for SNe at z ≳ 0.05 or when high-fidelity spectral matching is needed; add `host="ngc0628"` or `host="sersic:bb-5000"` to include host galaxy noise (matters most when SN is near the nucleus)
    - **LFAST Bench**: sufficient for nearby SNe (z ≲ 0.05, V ≲ 18) and for dense phase coverage (many epochs) across the light-curve evolution; SNR classification targets at R~300 convert to Bench targets as `SNR_per_resel = SNR_300 / sqrt(R_bench / 300)`
 4. **DSA** constrains host galaxy HI properties (targeted HI cube)
 
