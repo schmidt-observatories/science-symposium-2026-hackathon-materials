@@ -39,7 +39,7 @@ sn = slicersim.LazuliSupernova(redshift=0.1,
                                       "r_kpc": 3, "n": 1,
                                       "magabs": -21.5, "band": "sdssr"})
 sn.setup_to_snr(10, lbda_range=[4000, 6800])
-print(sn.simulation.time)    # exposure time in seconds
+print(sn.get_exposure_time())    # exposure time in seconds
 ```
 
 Host model names are `"spatial:spectral"`:
@@ -99,7 +99,7 @@ combined_image = sn.to_image()    # both fields on one detector array
 
 ```python
 sn.setup_to_snr(snr=10, per_resolution=True)
-print(sn.simulation.time)    # resulting exposure time in seconds
+print(sn.get_exposure_time())    # resulting exposure time in seconds
 ```
 
 ## Variance / noise budget
