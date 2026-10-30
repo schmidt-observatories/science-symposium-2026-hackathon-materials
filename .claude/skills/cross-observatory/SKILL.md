@@ -69,7 +69,7 @@ Each tool returns SNR or limiting magnitude independently; combine them by posit
 ```python
 # Argus depth at a position
 from argus_sim.lightcurve import SurveyRun
-run = SurveyRun("s3://…/argsim_5yr_…/")
+run = SurveyRun("~/s3/schmidt-observatory-system/argus/sim/argsim_5yr_beta_rho_uniform_v5.4/store")
 dm = run.depth_map("beta")     # limmag column = 5-sigma stacked depth per tile
 
 # WCC depth for the same position, one pointing
