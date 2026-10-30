@@ -68,7 +68,7 @@ models plug in directly (see `tutorial_survey_data.ipynb`).
 `storage_options` are the keyword arguments of `pyarrow.fs.S3FileSystem`:
 
 ```python
-run = SurveyRun("s3://bucket/prefix/store/", storage_options={"access_key": …, "secret_key": …, "region": …})
+run = SurveyRun("~/s3/schmidt-observatory-system/argus/sim/argsim_5yr_beta_rho_uniform_v5.4/store", storage_options={"access_key": …, "secret_key": …, "region": …})
 ```
 
 ## Part 2 — Survey simulator (instrument / cadence studies)
