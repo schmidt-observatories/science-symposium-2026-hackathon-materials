@@ -1,6 +1,6 @@
 ---
 name: wcc-sim
-description: Lazuli WCC end-to-end pixel-level image simulator. Load when building simulated WCC images of any sky scene: star fields, globular clusters, galaxies, nearby spirals (PHANGS), any sky FITS image (e.g. M31 cutout), crowded fields, multi-epoch stacks, or dithered mosaics. Package is wcc_sim; it wraps wcc_etc. Do NOT write scipy/numpy image simulation from scratch — use wcc_sim.
+description: "Lazuli WCC end-to-end pixel-level image simulator. Load when building simulated WCC images of any sky scene: star fields, globular clusters, galaxies, nearby spirals (PHANGS), any sky FITS image (e.g. M31 cutout), crowded fields, multi-epoch stacks, or dithered mosaics. Package is wcc_sim; it wraps wcc_etc. Do NOT write scipy/numpy image simulation from scratch — use wcc_sim."
 ---
 
 # WCC Image Simulator (`wcc_sim`)
