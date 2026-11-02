@@ -55,7 +55,8 @@ We have also created custom skills for Claude Code that load automatically based
 | `wcc-etc` | WCC SNR, depth, exposure time for point or extended sources |
 | `wcc-sim` | Simulated WCC FITS images, stacks, or dithered mosaics |
 | `lazuli-ifs` | IFS SNR, spectral cubes, supernova/kilonova spectroscopy |
-| `lazuli-exo` | Exoplanet atmosphere detectability, transit spectroscopy with the coronagraph |
+| `esc-etc` | ESC coronagraph SNR, integration time, contrast, speckle plateau, zodi/exozodi, or target detectability |
+| `lazuli-exo` | Exoplanet atmosphere detectability or transit spectroscopy with the IFS |
 | `argus` | Argus sky coverage, per-position depth, cadence, or light curve injection; the prototype data |
 | `lfast` | LFAST SNR, exposure time, spectrograph configuration (CSHELL vs WIYN Bench), fiber choice, or custom SED |
 | `dsa` | DSA notebooks, data products (FRB, pulsar, continuum), and directory layout; points to the `dsa-sensitivity` skill for ETC questions |
