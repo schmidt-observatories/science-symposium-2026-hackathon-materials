@@ -11,7 +11,7 @@ description: Multi-facility science with the Schmidt Observatory System. Load wh
 |---|---|---|---|---|
 | **Lazuli WCC** | optical (g–z, ~0.4–1.0 µm) | ~100 mas (space, defocused PSF) | ~0.1 deg² | wide-field optical imaging; transient discovery; transit photometry |
 | **Lazuli IFS** | optical (0.4–0.68 µm) | 40–80 mas spaxels | 58×58 spaxels (narrow/wide field) | classification spectra; SN typing; kilonova spectral evolution |
-| **Lazuli ESC** | optical + near-IR | coronagraphic | ~few arcsec contrast | exoplanet atmosphere transmission spectra; direct imaging context |
+| **Lazuli ESC** | optical (12 filters, 400–730 nm) | coronagraphic (IWA ~0.17″ in R3) | dark hole to ~0.9″ (20 λ/D), raw contrast ~1e-8 | direct imaging of exoplanets in reflected light; exozodi |
 | **DSA** | radio 0.70–2.00 GHz | ~3.5″ (full-band imaging) | 3.4° primary beam (1.35 GHz) | continuum, HI, polarization; FRB detection & localization; pulsar timing |
 | **Argus Array** | optical β + ρ bands | ~3″ (ground, seeing-limited) | all-sky cadenced survey | variability; cadence / light-curve history; depth map at any position |
 | **LFAST** | optical 412–686 nm (Bench, R~300–3600) + near-IR 1.08–1.75 µm (CSHELL, R 18k–43k) | seeing-limited | single-fiber (one target per pointing) | cadenced / rapid spectroscopic follow-up at moderate R; He 10830 / near-IR stellar lines (CSHELL); stellar activity monitoring (Ca II, Hα); the *only* TSOS facility with NIR spectroscopy |
@@ -46,12 +46,12 @@ ETC chain: run `dsa_etc` for FRB fluence limit → `wcc_etc.Simulation` for host
 
 ### Exoplanet atmosphere survey
 
-1. **Lazuli ESC / `lazuli_exo`** simulates transmission spectrum SNR (`observe(planet, scenario, n_transits)`)
+1. **Lazuli IFS / `lazuli_exo`** simulates transmission spectrum SNR (`observe(planet, scenario, n_transits)`); for non-transiting planets in reflected light, **Lazuli ESC / `esc_etc`** gives time to S/N at a given contrast and separation
 2. **WCC + `TransitModel`** estimates photometric transit precision for the same system (ingress timing, stellar variability)
 3. **Argus** provides the long-baseline variability record of the host star (`run.inject(vis, stellar_model)`)
 4. **LFAST** adds two independent ground-based diagnostics:
    - **CSHELL at R~18k** (1083 nm setting): He 10830 metastable helium transit absorption — a sensitive atmospheric escape tracer not covered by Lazuli IFS (which stops at 0.68 µm); see `ex4_he10830_cshell` for the ETC pattern. Use `Instrument.from_preset("cshell_r18000")` + `setting_window(1083.0)`.
-   - **Bench (Ca II H&K ~397 nm, Hα 656 nm)**: stellar chromospheric activity monitoring in-transit to separate planetary signal from stellar contamination in ESC transmission spectra.
+   - **Bench (Ca II H&K ~397 nm, Hα 656 nm)**: stellar chromospheric activity monitoring in-transit to separate planetary signal from stellar contamination in IFS transmission spectra.
 
 ### SN Ia cosmology
 

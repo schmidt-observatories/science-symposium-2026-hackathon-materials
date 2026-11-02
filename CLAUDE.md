@@ -8,8 +8,8 @@ Notebooks, simulators, and sample data for the Schmidt Observatory System (TSOS)
 |---|---|---|
 | `lazuli/wcc/` | Lazuli WCC | Tutorial notebooks for the wide-field context camera ETC and image simulator |
 | `lazuli/ifs/` | Lazuli IFS | Tutorial notebooks for the slicer integral-field spectrograph |
-| `lazuli/esc/` | Lazuli ESC | Coronagraph science case notebooks |
-| `lazuli/science_gallery/` | Lazuli (all) | Eleven one-question science-case notebooks spanning WCC, IFS, and ESC (exoplanet atmospheres, SN Ia, kilonovae, TDEs, transit photometry, crowded fields) |
+| `lazuli/esc/` | Lazuli ESC | Tutorial notebooks and exercises for the `esc_etc` coronagraph ETC |
+| `lazuli/science_gallery/` | Lazuli (all) | Eleven one-question science-case notebooks spanning WCC and IFS (exoplanet transmission spectra, SN Ia, kilonovae, TDEs, transit photometry, crowded fields) |
 | `dsa/hackathon2026/` | DSA | HI cube, FRB mocks, pulsar timing notebooks |
 | `dsa/exposure-time-calculator/` | DSA | Sensitivity calculator: web page + Python package (`dsa_etc`) |
 | `argus/argus_survey_model/` | Argus Array | Survey simulator (`argus_sim`): sky coverage, depth, light curves |
@@ -24,9 +24,10 @@ Notebooks, simulators, and sample data for the Schmidt Observatory System (TSOS)
 
 ### Lazuli IFS (slicer)
 - **`slicersim`** — IFS observation simulator; high-level entry points `LazuliSupernova`, `LazuliKilonova`, `LazuliTarget`, `lazuli_etc`, `lazuli_sn_etc`. Skills: `lazuli-ifs`.
+- **`lazuli_exo`** — IFS exoplanet transmission spectroscopy ETC (not the coronagraph); high-level entry points `lazuli_exo.observe()`, `lazuli_exo.simulate()`, `list_planets()`, `.detect()`. Skills: `lazuli-exo`.
 
 ### Lazuli ESC (coronagraph)
-- **`lazuli_exo`** — exoplanet transmission spectroscopy ETC; high-level entry points `lazuli_exo.observe()`, `lazuli_exo.simulate()`, `list_planets()`, `list_scenarios()`. Skills: `lazuli-exo`.
+- **`esc_etc`** — coronagraph exposure time calculator for direct imaging; entry point `Simulation.from_default(filter, hoststarmag, planetdeltamag, contrast, ppgain, separation)` with `get_snr`, `get_int_time_for_snr`, `update`/`reset`. Skills: `esc-etc`.
 
 ### DSA
 - **`dsa_etc`** — sensitivity calculator CLI and Python API. Has its own `CLAUDE.md` at `dsa/exposure-time-calculator/CLAUDE.md` and a skill at `dsa/exposure-time-calculator/skill/dsa-sensitivity/SKILL.md`.
@@ -48,8 +49,8 @@ Notebooks, simulators, and sample data for the Schmidt Observatory System (TSOS)
 Each instrument's tutorial notebooks are the best first reference:
 - WCC: `lazuli/wcc/tutorial/01_tdamm_transient_on_host.ipynb` through `07_ism_halpha_emission_line.ipynb`
 - IFS: `lazuli/ifs/tutorial/01_exposure_time_calculator.ipynb` through `06_cubes_and_fields.ipynb`
-- ESC: `lazuli/esc/tutorial/` — coronagraph exercises
-- Lazuli science gallery: `lazuli/science_gallery/01` through `11` — eleven one-question worked examples spanning all three Lazuli instruments (exoplanet atmospheres, SN Ia, kilonovae, emission lines, TDEs, transit photometry, crowded fields); prefer these as starting points over building from scratch
+- ESC: `lazuli/esc/tutorial/01_etc_in_one_line.ipynb` through `05_zodi_and_exozodi.ipynb` — the `esc_etc` coronagraph ETC (S/N and time to S/N, contrast/ppgain/separation and the speckle plateau, frame time and saturation, zodi/exozodi); six exercises in `lazuli/esc/tutorial/exercises/` (Jupiter twin, detectability map, bright hosts, RV giants, exozodi tolerance, bring-your-own-target). Skills: `esc-etc`.
+- Lazuli science gallery: `lazuli/science_gallery/01` through `11` — eleven one-question worked examples spanning the WCC and IFS (exoplanet transmission spectra, SN Ia, kilonovae, emission lines, TDEs, transit photometry, crowded fields); prefer these as starting points over building from scratch
 - LFAST: `lfast/tutorial/01_etc_in_one_line.ipynb` through `04_sensitivity_maps_array_scaling.ipynb` — the `lfast_etc` ETC (WIYN Bench and CSHELL, per resolution element, array size as a parameter). Notebook topics: 01 = `LFASTETC`/`Source`/`exptime`/`snr`/`ETCResult`; 02 = presets/`list_instruments`/`Instrument`/`Telescope`/`plot_throughput`; 03 = sources/sky/noise budget (`plot_rates`, `plot_noise_budget`)/reads/saturation; 04 = sensitivity maps (`snr_grid`, `limiting_magnitude`, `exptime_vs_mag`, `plot_snr_map`, `plot_vs_n_telescopes`). Six science exercises in `lfast/tutorial/exercises/`: stellar metallicities (ex1), transient classification (ex2), M-dwarf flares (ex3), He 10830/CSHELL (ex4), array scaling (ex5), bring-your-own-target (ex6). Skills: `lfast`.
 - DSA: `dsa/hackathon2026/notebooks/dsa07_load_plot.ipynb` — load and plot the DPR-DSA-07 HI/continuum data product; `dsa11_dsa12_frb.ipynb` — browse FRB mock data products (DPR-DSA-11/12); `dsa13_inspect_archives.ipynb` and `dsa13_timing.ipynb` — inspect CHR pulsar timing archives and derive a timing solution
 - Argus: `argus/argus_survey_model/notebooks/tutorial_depth_calculation.ipynb` — compute the 5-sigma depth of an Argus exposure; `tutorial_survey_data.ipynb` — open and query a simulated Argus visit store

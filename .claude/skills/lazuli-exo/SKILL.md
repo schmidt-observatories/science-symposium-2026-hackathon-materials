@@ -1,77 +1,95 @@
 ---
 name: lazuli-exo
-description: Lazuli ESC/IFS exoplanet transmission spectroscopy ETC. Load for questions about exoplanet atmosphere detectability, transit spectroscopy SNR, stellar contamination, or comparing planet scenarios with the Lazuli coronagraph or IFS. Package is lazuli_exo.
+description: Lazuli IFS exoplanet transmission spectroscopy ETC. Load for questions about transiting exoplanet atmosphere detectability, transit spectroscopy SNR, number of transits needed, stellar contamination (spots, faculae), or comparing planet and atmosphere scenarios with the Lazuli IFS. Package is lazuli_exo. Not the coronagraph, for ESC direct imaging use esc-etc.
 ---
 
-# Lazuli Exoplanet ETC (`lazuli_exo`)
+# Lazuli Exoplanet Transit Spectroscopy ETC (`lazuli_exo`)
 
-Lookup-table ETC for exoplanet transmission spectroscopy with the Lazuli IFS. Planets are parameterized by archive values; atmospheres are pre-computed model grids.
+Transmission-spectroscopy ETC for the **Lazuli IFS** (0.4–1.7 µm). Showcase planets come with archive
+parameters and precomputed slicersim noise tables; atmospheres are a 1D isothermal,
+equilibrium-chemistry surrogate of POSEIDON.
 
-## List available planets and scenarios
+This is **not** the coronagraph. For direct imaging / reflected light with the ESC, use the `esc-etc`
+skill (`esc_etc` package, `lazuli/esc/tutorial/`).
+
+## Planets and targets
 
 ```python
 import lazuli_exo
+from lazuli_exo.targets import get_target
 
-planets   = lazuli_exo.list_planets()     # DataFrame of supported showcase planets
-scenarios = lazuli_exo.list_scenarios()   # available atmosphere scenarios per planet
-print(planets[["name", "host", "R_p_Re", "T_eq_K", "J_mag"]])
+lazuli_exo.list_planets()        # list of 14 showcase planet names, e.g. "K2-18 b", "TRAPPIST-1 e", "WASP-39 b"
+t = get_target("K2-18 b")        # dict: T_eq_K, period_d, T_eff_K, J_mag, R_p_RJ, t14_s, ...
 ```
 
-## Simulate an observation
+Planet names have a **space before the letter** (`"K2-18 b"`, not `"K2-18b"`).
 
-`observe()` returns a `SimulatedSpectrum` from the precomputed noise table:
+Scenarios: `"clear"`, `"hazy"`, `"high_metallicity"`, `"cloudy"`, `"flat"` (featureless, zero signal by
+construction; useful as a null for contamination tests).
+
+## Observe a showcase planet
 
 ```python
-result = lazuli_exo.observe(
-    planet="K2-18b",
-    scenario="clear",      # atmosphere model label
-    n_transits=10,
-    R=100,                 # spectral resolution for binning
-    f_spot=0.0,            # unocculted spot fraction (stellar contamination)
-    T_spot_K=None,         # spot temperature; None → default from registry
-)
-print(result.wavelength_um)   # μm bin centers
-print(result.depth_ppm)       # transit depth in ppm
-print(result.sigma_ppm)       # 1-sigma per bin
-result.plot()
+o = lazuli_exo.observe("K2-18 b", "clear", n_transits=1, R=100)
+
+o.wavelength        # bin centres, µm
+o.depth             # model transit depth, FRACTION (multiply by 1e6 for ppm)
+o.depth_err         # 1-sigma per bin, fraction
+o.meta["atmosphere"]["feature_amplitude_ppm"]   # peak-to-peak feature amplitude
+o.meta["atmosphere"].get("T_clamped")           # set if T_eq was clamped to the 300 K chemistry floor
+o.simulate_points(seed=0)                       # one noisy realization of the depths
+o.plot(units="ppm", seed=1)                     # returns a matplotlib Axes
+
+d = o.detect()
+d["template_snr_diagonal"]      # matched-template S/N against a flat line
+d["band_snr"]["H2O"]            # per-molecule band S/N (dict keyed by molecule)
 ```
 
-## Run the forward model (no noise)
+Errors scale as 1/sqrt(n_transits), so transits to reach S/N 5 are `ceil((5 / snr_1)**2)`; calendar
+time is that times `get_target(p)["period_d"]`. `observe()` raises a `UserWarning` mentioning saturation
+for bright hosts whose noise table is not validated; catch and report it.
 
-`simulate()` returns the model transmission spectrum only:
+## Custom atmospheres: `simulate()`
+
+`simulate()` takes a planet/star dict (start from a preset) and runs live slicersim noise (the first call
+for a new star takes about a minute, then it is cached):
 
 ```python
-spec = lazuli_exo.simulate(planet="TRAPPIST-1e", scenario="earth_like", R=50)
+from lazuli_exo import presets
+o = lazuli_exo.simulate({**presets.showcase("TRAPPIST-1 e", "clear"), "mu": 10.0}, R=100, n_transits=1)
+o.detect()["band_snr"]["H2O"]
 ```
 
-## Stellar contamination
+The validated mean molecular weight range stops at mu = 15, so N₂/CO₂ atmospheres (mu ≈ 28–44) are
+outside the model. A user-supplied spectrum can be passed as `simulate(star, spectrum=(wl, depth))`.
 
-Add unocculted star spots/faculae to any `observe()` call:
+## Stellar contamination (transit light source effect)
+
+`observe()` multiplies the depth by the Rackham et al. (2018) contamination factor ε(λ) when given
+unocculted spot / facula covering fractions:
 
 ```python
-result = lazuli_exo.observe(
-    "K2-18b", "clear", n_transits=20,
-    f_spot=0.02, T_spot_K=3200,     # 2% spot coverage, 3200 K
-    f_fac=0.01,                      # 1% faculae
-)
+from lazuli_exo.star import TLSE_PRESETS     # e.g. "M_late_solar", "M_mid_solar", and "<key>_fac" variants
+o = lazuli_exo.observe("TRAPPIST-1 e", "flat", n_transits=1, R=100, f_spot=0.2)
+o = lazuli_exo.observe("TRAPPIST-1 e", "flat", n_transits=4, R=100, **TLSE_PRESETS["M_late_solar_fac"])
+o.meta["atmosphere"]["tlse"]                 # T_spot_K, T_fac_K, eps_min, eps_max actually used
 ```
 
-## Key output attributes (`SimulatedSpectrum`)
+Defaults: T_spot = 0.86 T_eff for M dwarfs, T_fac = T_eff + 100 K.
 
-| attribute | meaning |
-|---|---|
-| `.wavelength_um` | bin-center wavelengths in μm |
-| `.depth_ppm` | transit depth (model + noise realization) |
-| `.sigma_ppm` | 1-sigma per bin |
-| `.model_ppm` | noiseless model depth |
-| `.flat_depth` | geometric (R_p/R_s)² |
+## Caveats to state
+
+- Template / band S/N is a ranking statistic, not a detection significance; the H₂O mask overlaps CH₄ near 1.15 µm.
+- No systematics floor: errors fall as 1/sqrt(N) forever.
+- M-dwarf PHOENIX SEDs are too bright in the blue, so blue-end noise is ~10–25% optimistic.
+- Temperate planets are clamped to the 300 K chemistry floor.
 
 ## Tutorials
 
-`lazuli/science_gallery/01_k2-18b_trappist-1e_atmospheres.ipynb` — primary tutorial showing the full workflow from `list_planets` through `observe` and comparative plots.
+The worked examples are in `lazuli/science_gallery/`:
+- `01_k2-18b_trappist-1e_atmospheres.ipynb` — S/N vs number of transits, scenarios, mean molecular weight sweep with `simulate`.
+- `02_atmosphere_survey_ranking.ipynb` — ranks all showcase planets by S/N per transit.
+- `03_stellar_contamination.ipynb` — spots and faculae faking or hiding an atmosphere.
 
-`lazuli/science_gallery/02_atmosphere_survey_ranking.ipynb` — ranks all supported planets by atmospheric signal per transit.
-
-`lazuli/science_gallery/03_stellar_contamination.ipynb` — stellar contamination deep dive.
-
-If a user asks about exoplanet atmosphere detectability or transit spectroscopy, suggest starting from one of these notebooks rather than from scratch.
+If a user asks about transiting-exoplanet atmosphere detectability, suggest starting from one of these
+notebooks rather than from scratch.
